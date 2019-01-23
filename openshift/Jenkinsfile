@@ -1,0 +1,89 @@
+def version = "latest"
+def appName = env.APP_NAME
+def devProject = env.DEV_PROJECT
+def stageProject = env.STAGE_PROJECT
+def dockerRegistry = env.DOCKER_REGISTRY
+
+pipeline {
+    agent {
+        label 'gradle'
+    }
+    stages {
+        stage('checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('clean') {
+            steps {
+                sh "gradle clean --no-daemon"
+            }
+        }
+        stage('Determine project version') {
+            steps {   
+                script {
+                    version = sh returnStdout: true, script: 'gradle properties -q | grep "^version:" | awk \'{print $2}\' | tr -d \'[:space:]\''
+                    echo "Current project version is ${version}"
+                }
+            }
+        }
+        /*stage('Run Tests') {
+            steps {
+                script {
+                    try {
+                        sh "gradle test --no-daemon"
+                    } catch (err) {
+                        throw err
+                    } finally { */
+                  //     junit '**/build/**/TEST-*.xml'
+                 /*   }
+                }
+            }
+        }*/
+
+        stage('Packaging') {
+            steps {
+                sh "gradle bootJar -x test --no-daemon"
+                //   archiveArtifacts artifacts: '**/build/libs/*.war', fingerprint: true
+            }
+        }
+
+        stage('Create Image Builder') {
+            when {
+                expression {
+                    openshift.withCluster() {
+                        openshift.withProject(devProject) {
+                            return !openshift.selector("bc", appName).exists();
+                        }
+                    }
+                }
+            }
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject(devProject) {
+                            openshift.selector("bc", appName).startBuild("--from-dir=oc-build/", "--wait=true", "--follow")
+                            openshift.tag("${devProject}/${appName}:latest", "${devProject}/${appName}:${version}")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh "rm -rf oc-build && mkdir -p oc-build"
+                sh "cp openshift/Dockerfile openshift/entrypoint.sh oc-build/"
+                sh "cp build/libs/*-SNAPSHOT.jar oc-build/app.jar"
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject(devProject) {
+                            openshift.selector("bc", appName).startBuild("--from-dir=oc-build/", "--wait=true", "--follow")
+                            openshift.tag("${devProject}/${appName}:latest", "${devProject}/${appName}:${version}")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

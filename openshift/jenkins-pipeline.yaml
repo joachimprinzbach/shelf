@@ -1,0 +1,26 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    build: shelf
+  name: shelf
+spec:
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/joachimprinzbach/shelf.git'
+    type: Git
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: openshift/Jenkinsfile
+      env:
+        - name: APP_NAME
+          value: shelf
+        - name: DOCKER_REGISTRY
+          value: 'docker-registry.default.svc:5000'
+        - name: DEV_PROJECT
+          value: bookshelf-dev
+        - name: STAGE_PROJECT
+          value: bookshelf-stage
+    type: JenkinsPipeline
+  successfulBuildsHistoryLimit: 5

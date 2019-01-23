@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    role: jenkins-slave
+  name: jenkins-slaves
+data:
+  gradle-template: |-
+    <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+      <inheritFrom></inheritFrom>
+      <name>gradle</name>
+      <namespace></namespace>
+      <privileged>false</privileged>
+      <capOnlyOnAlivePods>false</capOnlyOnAlivePods>
+      <alwaysPullImage>false</alwaysPullImage>
+      <instanceCap>2147483647</instanceCap>
+      <slaveConnectTimeout>100</slaveConnectTimeout>
+      <idleMinutes>30</idleMinutes>
+      <activeDeadlineSeconds>0</activeDeadlineSeconds>
+      <label>gradle</label>
+      <nodeSelector></nodeSelector>
+      <nodeUsageMode>NORMAL</nodeUsageMode>
+      <customWorkspaceVolumeEnabled>false</customWorkspaceVolumeEnabled>
+      <workspaceVolume class="org.csanchez.jenkins.plugins.kubernetes.volumes.workspace.EmptyDirWorkspaceVolume">
+      <memory>false</memory>
+      </workspaceVolume>
+      <containers>
+      <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+        <name>jnlp</name>
+        <image>niiku/jenkins-slave-gradle-centos7:latest</image>
+        <privileged>false</privileged>
+        <alwaysPullImage>false</alwaysPullImage>
+        <workingDir>/tmp</workingDir>
+        <command></command>
+        <args>${computer.jnlpmac} ${computer.name}</args>
+        <ttyEnabled>false</ttyEnabled>
+        <resourceRequestCpu></resourceRequestCpu>
+        <resourceRequestMemory></resourceRequestMemory>
+        <resourceLimitCpu></resourceLimitCpu>
+        <resourceLimitMemory></resourceLimitMemory>
+        <envVars/>
+        <ports/>
+        <livenessProbe>
+        <execArgs></execArgs>
+        <timeoutSeconds>0</timeoutSeconds>
+        <initialDelaySeconds>0</initialDelaySeconds>
+        <failureThreshold>0</failureThreshold>
+        <periodSeconds>0</periodSeconds>
+        <successThreshold>0</successThreshold>
+        </livenessProbe>
+      </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+      </containers>
+      <podRetention class="org.csanchez.jenkins.plugins.kubernetes.pod.retention.Default"/>
+    </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-slave-gradle-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
