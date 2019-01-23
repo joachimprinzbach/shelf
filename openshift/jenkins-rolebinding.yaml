@@ -1,0 +1,12 @@
+apiVersion: authorization.openshift.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-edit
+roleRef:
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: cicd
+userNames:
+- system:serviceaccount:cicd:default
