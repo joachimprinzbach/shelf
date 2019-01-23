@@ -1,0 +1,18 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    build: bookshelf
+  name: openjdk
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations:
+      openshift.io/imported-from: openjdk:8-jre-alpine
+    from:
+      kind: DockerImage
+      name: openjdk:8-jre-alpine
+    name: 8-jre-alpine
+    referencePolicy:
+      type: Source
