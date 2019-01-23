@@ -62,8 +62,7 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject(devProject) {
-                            openshift.selector("bc", appName).startBuild("--from-dir=oc-build/", "--wait=true", "--follow")
-                            openshift.tag("${devProject}/${appName}:latest", "${devProject}/${appName}:${version}")
+                            openshift.newBuild("--name=${appName}", "--strategy docker", "--binary=true", "--docker-image openjdk:8-jre-alpine")
                         }
                     }
                 }
