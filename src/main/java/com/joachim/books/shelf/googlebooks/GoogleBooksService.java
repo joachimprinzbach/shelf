@@ -40,7 +40,7 @@ public class GoogleBooksService {
 
             long currentTimeLong = new Date().getTime();
             Bookshelf shelf = books.bookshelves().get(userId, shelfId).execute();
-            long lastUpdatedLong = shelf.getVolumesLastUpdated().getValue();
+            //long lastUpdatedLong = shelf.getVolumesLastUpdated().getValue();
             // TODO: Only continue if shelf has been updated during the last 2 minutes
 
             HashSet<Volume> volumes = new HashSet<>();

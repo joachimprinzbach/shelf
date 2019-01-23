@@ -10,7 +10,7 @@ public class GoogleBooksScheduler {
 
     private final GoogleBooksService googleBooksService;
 
-    @Scheduled(fixedDelay = 120000, initialDelay = 5000)
+    @Scheduled(fixedDelay = 1200000, initialDelay = 5000)
     public void performGoogleBooksSchedule() {
         googleBooksService.queryGoogleBooks();
     }
