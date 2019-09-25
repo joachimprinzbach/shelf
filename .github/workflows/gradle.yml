@@ -21,7 +21,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_REGISTRY_URL: docker.pkg.github.com/joachimprinzbach/book-shelve/app:1.0
-    - name: Publish
+    - name: Docker Publish
       uses: actions/action-builder/docker@master
       with:
         entrypoint: make
