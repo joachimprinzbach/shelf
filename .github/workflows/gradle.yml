@@ -22,6 +22,6 @@ jobs:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         REGISTRY: "docker.pkg.github.com"
         RESISTRY: "docker.pkg.github.com"
-        TAG_NAME: "v0.0.2"
+        TAG_NAME: "v0.0.3"
         IMAGE_NAME: "joachimprinzbach/shelf/app"
         LATEST: "true"
