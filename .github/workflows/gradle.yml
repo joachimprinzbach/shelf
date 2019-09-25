@@ -22,4 +22,5 @@ jobs:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         REGISTRY: "docker.pkg.github.com"
         TAG_NAME: "v0.0.1"
+        IMAGE_NAME: "docker.pkg.github.com/joachimprinzbach/shelf"
         LATEST: "true"
