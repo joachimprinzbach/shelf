@@ -23,5 +23,5 @@ jobs:
         REGISTRY: "docker.pkg.github.com"
         RESISTRY: "docker.pkg.github.com"
         TAG_NAME: "v0.0.1"
-        IMAGE_NAME: "joachimprinzbach/shelf"
+        IMAGE_NAME: "joachimprinzbach/shelf/app"
         LATEST: "true"
