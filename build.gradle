@@ -23,13 +23,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'com.google.api-client:google-api-client:1.28.0'
-    implementation 'com.google.apis:google-api-services-books:v1-rev20180824-1.28.0'
-    runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
