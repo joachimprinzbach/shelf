@@ -18,6 +18,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@1.13
       with:
-        name: myDocker/repository
+        name: myApp
+        registry: docker.pkg.github.com/joachimprinzbach/book-shelve/app:1.0
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
