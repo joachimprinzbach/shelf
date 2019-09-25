@@ -15,14 +15,12 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Docker Login
-      uses: actions/docker/login@master
+    - name: Build & Push to GitHub Package
+      uses: opspresso/action-docker@master
       env:
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_REGISTRY_URL: docker.pkg.github.com/joachimprinzbach/book-shelve/app:1.0
-    - name: Docker-Publish
-      uses: actions/action-builder/docker@master
-      with:
-        entrypoint: make
-        args: publish
+        USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        REGISRTY: "docker.pkg.github.com"
+        IMAGE_NAME: "user_id/image_name"
+        TAG_NAME: "v0.0.1"
+        LATEST: "true"
