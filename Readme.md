@@ -15,3 +15,6 @@ java \
 ```
 
 The `KAFKA_KEYSTORE_LOCATION` must start with file:// e.g. file://var/lib/kafka/keystore.jks
+
+- Github actions setup
+- Docker registry upload key: 
