@@ -20,6 +20,6 @@ jobs:
       env:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        REGISRTY: "docker.pkg.github.com"
+        REGISTRY: "docker.pkg.github.com"
         TAG_NAME: "v0.0.1"
         LATEST: "true"
