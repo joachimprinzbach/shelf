@@ -8,4 +8,4 @@ exec java ${JAVA_OPTS} \
 -Dgoogle.books.shelfid=${GOOGLE_BOOKS_SHELFID} \
 -Dgoogle.books.userid=${GOOGLE_BOOKS_USERID} \
 -Djava.security.egd=file:/dev/./urandom \
--jar "${HOME}/app.jar" "$@"
+-jar "${HOME}/app.jar -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap" "$@"
